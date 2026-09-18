@@ -1,0 +1,2 @@
+import Link from "next/link"
+export default function ThreeDPage() { return <main className="mx-auto min-h-screen max-w-md px-3 py-6"><Link href="/" className="text-sm text-[#806b43]">← Back</Link><h1 className="mt-4 text-2xl font-bold">3D Result History</h1><p className="mt-2 text-sm text-[#66583d]">3D results are not sourced from a third-party API. This section is ready for an approved first-party data source.</p></main> }
