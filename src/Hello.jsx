@@ -35,11 +35,11 @@ export default function Hello() {
     <header className="pt-5 text-center">
       <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#806b43]">Myanmar 2D / 3D</p>
       <div className="mt-3 flex items-center justify-center gap-2">
-        <span className={`rounded-full px-3 py-1 text-xs font-bold ${state === "LIVE" ? "bg-green-100 text-green-800" : "bg-black/10 text-[#66583d]"}`}>{state}</span>
+        <span className={`rounded-full px-3 py-1 text-xs font-bold ${state === "LIVE" ? "bg-green-100 text-green-800" : state === "CLOSED" ? "bg-amber-100 text-amber-900" : "bg-black/10 text-[#66583d]"}`}>{state}</span>
         {market?.collectedAt && <span className="text-xs text-[#806b43]">Updated {new Date(market.collectedAt).toLocaleTimeString()}</span>}
       </div>
       <h1 className="txet-sh mt-2 text-8xl font-semibold">{state === "LIVE" ? (market?.twoD || "--") : "--"}</h1>
-      <p className="text-sm text-[#66583d]">{state === "LIVE" ? "Live from SET market data" : "Next session starts at " + (status?.nextSession?.label || "11:00 AM")}</p>
+      <p className="text-sm text-[#66583d]">{state === "LIVE" ? "Live from SET market data" : state === "CLOSED" ? "Market closed. Next session starts at " + (status?.nextSession?.label || "11:00 AM") : "Next session starts at " + (status?.nextSession?.label || "11:00 AM")}</p>
     </header>
     {error && <div role="alert" className="mt-4 rounded-xl bg-red-100 px-4 py-3 text-center text-sm text-red-800">{error}</div>}
     {!error && !market && <div className="mt-4 rounded-xl bg-white/70 px-4 py-3 text-center text-sm text-[#66583d]">Loading latest market data…</div>}

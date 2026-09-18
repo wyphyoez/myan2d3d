@@ -8,7 +8,7 @@
 
 ## Market data
 - The collector uses SET SMART Marketplace's verified JSON endpoint: `GET https://marketplace.set.or.th/api/public/realtime-data/index` with the `api-key` header.
-- `SET_API_KEY` is required. `SET_MARKET_ENDPOINT` can override the endpoint for an approved SET environment only; no third-party 2D/3D API is used.
+- `SET_API_KEY` is required for the official SET SMART Marketplace endpoint. `SET_MARKET_ENDPOINT` can override the endpoint for an approved SET environment only; no third-party 2D/3D API is used. The collector uses the project's Vercel-provided `KV_REST_API_URL` and `KV_REST_API_TOKEN` when available.
 - `MARKET_TIME_ZONE` defaults to `Asia/Yangon`. Sessions are 11:00–12:00 and 15:00–16:30 by default.
 
 ## Runtime behavior
