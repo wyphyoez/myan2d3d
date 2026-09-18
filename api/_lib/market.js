@@ -1,6 +1,9 @@
 import { Redis } from "@upstash/redis";
 
-const redis = Redis.fromEnv();
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.REDIS_URL,
+  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 const MARKET_KEY = "myan2d:market:latest";
 const HISTORY_KEY = "myan2d:results:history";
 
@@ -24,8 +27,9 @@ export function marketStatus(now = new Date()) {
   const current = Number(parts.find((part) => part.type === "hour").value) * 60 + Number(parts.find((part) => part.type === "minute").value);
   const active = sessions.find((session) => current >= minutes(session.start) && current < minutes(session.cutoff));
   const next = sessions.find((session) => current < minutes(session.start));
+  const hasClosedSession = sessions.some((session) => current >= minutes(session.cutoff));
   return {
-    state: active ? "LIVE" : "WAITING",
+    state: active ? "LIVE" : hasClosedSession ? "CLOSED" : "WAITING",
     session: active || null,
     nextSession: next || sessions[0],
     checkedAt: now.toISOString(),

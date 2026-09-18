@@ -1,4 +1,4 @@
-import { calculateTwoD, saveResult, writeMarket } from "./market.js";
+import { calculateTwoD, marketStatus, saveResult, writeMarket } from "./market.js";
 
 const SET_ENDPOINT = process.env.SET_MARKET_ENDPOINT || "https://marketplace.set.or.th/api/public/realtime-data/index";
 
@@ -21,6 +21,9 @@ export async function collectSetData() {
   const value = pick(source, ["value", "change", "marketValue", "totalValue"]);
   const twoD = calculateTwoD(set);
   const market = await writeMarket({ set, value, twoD, source: "SET SMART Marketplace" });
-  if (twoD) await saveResult({ date: new Date().toISOString().slice(0, 10), session: "live", set, value, twoD, collectedAt: market.collectedAt });
+  const status = marketStatus();
+  if (twoD && status.session) {
+    await saveResult({ date: new Date().toISOString().slice(0, 10), session: status.session.id, set, value, twoD, collectedAt: market.collectedAt });
+  }
   return market;
 }
